@@ -1,10 +1,33 @@
-def countGoodSubstrings(s: str) -> int:
-      count = 0
-      for i in range(len(s) - 2):
-            substring = s[i:i + 3]
-            if len(set(substring)) == 3:
-                  count += 1
-      return count
+def pairInSortedRotated(arr, target):
+    n = len(arr)
+
+    if n < 2:
+        return False
+
+    # Find the smallest element (pivot)
+    pivot = 0
+    for i in range(n - 1):
+        if arr[i] > arr[i + 1]:
+            pivot = i + 1
+            break
+
+    left = pivot
+    right = (pivot - 1 + n) % n
+
+    while left != right:
+        total = arr[left] + arr[right]
+
+        if total == target:
+            return True
+        elif total < target:
+            left = (left + 1) % n
+        else:
+            right = (right - 1 + n) % n
+
+    return False
+
+
 if __name__ == '__main__':
-    s = input()
-    print(countGoodSubstrings(s))
+    arr = list(map(int, input().split()))
+    target = int(input())
+    print(pairInSortedRotated(arr, target))
